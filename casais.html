@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,74 +8,209 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Estilos gerais */
         body {
-            padding-top: 70px;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
         }
-        .card-question {
-            margin: 20px 0;
+
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .btn-next {
+                font-size: 16px;
+            }
+        }
+
+
+        /* Estilos gerais */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Título */
+        h1 {
+            margin-top: 60px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Container da carta */
+        .card-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-flip {
+            width: 300px;
+            height: 180px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card-container.flipped .card-flip {
+            transform: rotateY(180deg);
+        }
+
+        /* Frente e verso da carta */
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: white;
+        }
+
+        .card-front {
+            background-color: #ff2800;
+            color: white;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Texto da pergunta */
+        .question-text {
+            font-size: 20px;
             padding: 20px;
             text-align: center;
-            font-size: 1.2rem;
         }
-        .btn-next {
-            margin-top: 20px;
+
+
+
+        #getQuestion {
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
 
-<!-- Menu de Navegação -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#">Jogo de Cartas</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="casais.html">Casais</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="amigos.html">Amigos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="bebidas.html">Bebidas</a>
-            </li>
-        </ul>
+    <!-- Menu de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="index.html">Jogo de Cartas</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="casais.html">Casais</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="amigos.html">Amigos</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <h1 class="text-center">Perguntas para Casais</h1>
+        <p id="total-questions" class="text-center mt-3">Carregando...</p>
+        <div class="card-container" id="getQuestion">
+            <div class="card-flip">
+                <div class="card-front">
+                    <p id="question" class="question-text">Clique no botão para nova pergunta!</p>
+                </div>
+                <div class="card-back">
+                    <p id="new-question" class="question-text"></p>
+                </div>
+            </div>
+        </div>
+
     </div>
-</nav>
 
-<!-- Conteúdo Principal -->
-<div class="container">
-    <h1 class="text-center">Perguntas para Casais</h1>
-    <div class="card card-question">
-        <p id="question">Clique no botão para a primeira pergunta!</p>
-    </div>
-    <button class="btn btn-primary btn-next" id="getQuestion">Próxima Pergunta</button>
-</div>
 
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Script para buscar a próxima questão -->
-<script>
-    document.getElementById('getQuestion').addEventListener('click', () => {
-        fetch('questions.json')
-        .then(response => response.json())
-        .then(data => {
-            const randomQuestion = data.casais[Math.floor(Math.random() * data.casais.length)];
-            document.getElementById('question').innerText = randomQuestion.question;
-        })
-        .catch(error => {
-            console.error('Erro ao carregar as perguntas:', error);
+    <!-- Script para buscar a próxima questão -->
+    <script>
+
+        let totalQuestions = 0;
+        let questionsData = [];
+
+        // Função para carregar as perguntas no início
+        function loadQuestions() {
+            fetch('questions.json')
+                .then(response => response.json())
+                .then(data => {
+                    questionsData = data.couples; // Armazena todas as perguntas
+                    totalQuestions = questionsData.length;
+
+                    // Atualiza o número de perguntas no ecrã
+                    document.getElementById('total-questions').innerText = `Total de perguntas disponíveis: ${totalQuestions}`;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar as perguntas:', error);
+                    document.getElementById('total-questions').innerText = 'Erro ao carregar perguntas.';
+                });
+        }
+
+        // Carrega as perguntas quando a página inicia
+        window.onload = loadQuestions;
+        document.getElementById('getQuestion').addEventListener('click', () => {
+            const cardContainer = document.querySelector('.card-container');
+            const questionElement = document.getElementById('question');
+            const newQuestionElement = document.getElementById('new-question');
+
+            if (!cardContainer.classList.contains('flipped')) {
+                questionElement.style.visibility = 'hidden';
+
+                cardContainer.classList.add('flipped');
+
+                setTimeout(() => {
+                    fetch('questions.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const randomQuestion = data.couples[Math.floor(Math.random() * data.couples.length)];
+                            newQuestionElement.innerText = randomQuestion.question;
+                            newQuestionElement.style.visibility = 'visible';
+                        })
+                        .catch(error => {
+                            console.error('Erro ao carregar as perguntas:', error);
+                        });
+                }, 300);
+            } else {
+                cardContainer.classList.remove('flipped');
+                newQuestionElement.style.visibility = 'hidden';
+                setTimeout(() => {
+                    questionElement.style.visibility = 'visible';
+                }, 600);
+            }
         });
-    });
-</script>
+
+    </script>
 
 </body>
+
 </html>
