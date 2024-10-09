@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo de Casais</title>
+    <link rel="icon" href="card-games.png" type="image/png">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -156,8 +157,10 @@
     <!-- Script para buscar a próxima questão -->
     <script>
 
+    
         let totalQuestions = 0;
         let questionsData = [];
+        let rotation = 0; // Variável para controlar o ângulo de rotação
 
         // Função para carregar as perguntas no início
         function loadQuestions() {
@@ -178,35 +181,20 @@
 
         // Carrega as perguntas quando a página inicia
         window.onload = loadQuestions;
+
         document.getElementById('getQuestion').addEventListener('click', () => {
-            const cardContainer = document.querySelector('.card-container');
-            const questionElement = document.getElementById('question');
+            const cardContainer = document.querySelector('.card-flip'); // Atualiza para o container da rotação
             const newQuestionElement = document.getElementById('new-question');
 
-            if (!cardContainer.classList.contains('flipped')) {
-                questionElement.style.visibility = 'hidden';
+            // Incrementa a rotação em 180 graus a cada clique
+            rotation += 180;
+            cardContainer.style.transform = `rotateY(${rotation}deg)`;
 
-                cardContainer.classList.add('flipped');
-
-                setTimeout(() => {
-                    fetch('questions.json')
-                        .then(response => response.json())
-                        .then(data => {
-                            const randomQuestion = data.couples[Math.floor(Math.random() * data.couples.length)];
-                            newQuestionElement.innerText = randomQuestion.question;
-                            newQuestionElement.style.visibility = 'visible';
-                        })
-                        .catch(error => {
-                            console.error('Erro ao carregar as perguntas:', error);
-                        });
-                }, 300);
-            } else {
-                cardContainer.classList.remove('flipped');
-                newQuestionElement.style.visibility = 'hidden';
-                setTimeout(() => {
-                    questionElement.style.visibility = 'visible';
-                }, 600);
-            }
+            // Atualiza a nova questão enquanto a carta roda
+            setTimeout(() => {
+                const randomQuestion = questionsData[Math.floor(Math.random() * questionsData.length)];
+                newQuestionElement.innerText = randomQuestion.question;
+            }, 300); // Tempo de 300ms para sincronizar durante a rotação da carta
         });
 
     </script>
